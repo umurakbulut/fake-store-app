@@ -3,11 +3,13 @@ import Pagination from "@/components/organisms/Pagination";
 import ProductGrid from "@/components/organisms/ProductGrid";
 import { fetchProducts } from "@/services/products";
 
-interface IProps {
+interface IProductPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
-export default async function ProductsPage({ searchParams }: IProps) {
+export default async function ProductsPage({
+  searchParams,
+}: IProductPageProps) {
   const { page } = await searchParams;
 
   const currentPage = Number(page || 1);

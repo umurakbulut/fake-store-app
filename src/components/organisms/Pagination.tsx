@@ -10,12 +10,15 @@ const Nav = styled.nav`
   margin: 2rem 0;
 `;
 
-interface IProps {
+interface IPaginationProps {
   currentPage: number;
   totalPages: number;
 }
 
-export default function Pagination({ currentPage, totalPages }: IProps) {
+export default function Pagination({
+  currentPage,
+  totalPages,
+}: IPaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
