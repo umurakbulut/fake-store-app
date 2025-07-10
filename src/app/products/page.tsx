@@ -4,6 +4,7 @@ import ProductGrid from "@/components/organisms/ProductGrid";
 import SortSelect from "@/components/molecules/SortSelect";
 import CategoryFilter from "@/components/molecules/CategoryFilter";
 import FiltersWrapper from "@/components/organisms/FiltersWrapper";
+import PriceFilter from "@/components/molecules/PriceFilter";
 import { fetchProducts } from "@/services/products";
 import { getFilteredPaginatedProducts } from "@/utils/product";
 
@@ -12,16 +13,20 @@ interface IProductPageProps {
     page?: string;
     sort?: "asc" | "desc";
     category?: string;
+    minPrice?: string;
+    maxPrice?: string;
   }>;
 }
 
 export default async function ProductsPage({
   searchParams,
 }: IProductPageProps) {
-  const { page, sort, category } = await searchParams;
+  const { page, sort, category, minPrice, maxPrice } = await searchParams;
 
   const currentPage = Number(page || 1);
   const limit = 10;
+  const min = Number(minPrice || 0);
+  const max = Number(maxPrice || Infinity);
 
   const allProducts = await fetchProducts();
 
@@ -31,6 +36,8 @@ export default async function ProductsPage({
     category,
     page: currentPage,
     limit,
+    min,
+    max,
   });
 
   const totalPages = Math.ceil(total / limit);
@@ -41,6 +48,7 @@ export default async function ProductsPage({
       <FiltersWrapper>
         <CategoryFilter />
         <SortSelect />
+        <PriceFilter />
       </FiltersWrapper>
       <ProductGrid products={products} />
       <Pagination currentPage={currentPage} totalPages={totalPages} />

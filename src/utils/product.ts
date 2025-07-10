@@ -6,6 +6,8 @@ interface IFilterOptions {
   category?: string;
   page: number;
   limit: number;
+  min: number;
+  max: number;
 }
 
 export function getFilteredPaginatedProducts({
@@ -14,6 +16,8 @@ export function getFilteredPaginatedProducts({
   category,
   page,
   limit,
+  min,
+  max,
 }: IFilterOptions) {
   const normalizedCategory = decodeURIComponent(category || "").replace(
     /\+/g,
@@ -27,6 +31,10 @@ export function getFilteredPaginatedProducts({
       (product) => product.category === normalizedCategory
     );
   }
+
+  filtered = filtered.filter(
+    (product) => product.price >= min && product.price <= max
+  );
 
   if (sort === "asc") {
     filtered = filtered.sort((a, b) => a.price - b.price);
