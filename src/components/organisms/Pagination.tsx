@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
 
 const Nav = styled.nav`
@@ -19,26 +20,32 @@ export default function Pagination({
   currentPage,
   totalPages,
 }: IPaginationProps) {
+  const searchParams = useSearchParams();
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <Nav>
-      {pages.map((page) => (
-        <Link
-          key={page}
-          href={`/products?page=${page}`}
-          style={{
-            padding: "8px 12px",
-            border: "1px solid #ddd",
-            borderRadius: "6px",
-            background: page === currentPage ? "#000" : "#fff",
-            color: page === currentPage ? "#fff" : "#000",
-            fontWeight: 500,
-          }}
-        >
-          {page}
-        </Link>
-      ))}
+      {pages.map((page) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", String(page));
+
+        return (
+          <Link
+            key={page}
+            href={`/products?${params.toString()}`}
+            style={{
+              padding: "8px 12px",
+              border: "1px solid #ddd",
+              borderRadius: "6px",
+              background: page === currentPage ? "#000" : "#fff",
+              color: page === currentPage ? "#fff" : "#000",
+              fontWeight: 500,
+            }}
+          >
+            {page}
+          </Link>
+        );
+      })}
     </Nav>
   );
 }
