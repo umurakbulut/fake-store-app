@@ -23,25 +23,47 @@ const Select = styled.select`
   }
 `;
 
-export default function SortSelect() {
+const categories = [
+  { label: "All", value: "" },
+  { label: "Men's Clothing", value: "men's clothing" },
+  { label: "Women's Clothing", value: "women's clothing" },
+  { label: "Electronics", value: "electronics" },
+  { label: "Jewelry", value: "jewelery" },
+];
+
+export default function CategoryFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const currentCategory = searchParams.get("category") || "";
   const currentSort = searchParams.get("sort") || "";
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSort = e.target.value;
+    const category = e.target.value;
     const params = new URLSearchParams(searchParams.toString());
-    params.set("sort", newSort);
+
+    if (category) {
+      params.set("category", category);
+    } else {
+      params.delete("category");
+    }
+
+    if (currentSort) {
+      params.set("sort", currentSort);
+    }
+
     params.set("page", "1");
+
     router.push(`/products?${params.toString()}`);
   };
 
   return (
-    <Select value={currentSort} onChange={handleChange}>
-      <option value="">Default</option>
-      <option value="asc">Price: Low to High</option>
-      <option value="desc">Price: High to Low</option>
+    <Select value={currentCategory} onChange={handleChange}>
+      {categories.map((cat) => (
+        <option key={cat.value} value={cat.value}>
+          {cat.label}
+        </option>
+      ))}
     </Select>
   );
 }
