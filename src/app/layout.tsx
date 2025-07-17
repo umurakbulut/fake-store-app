@@ -1,4 +1,6 @@
 import { Montserrat } from "next/font/google";
+import { CartProvider } from "@/contexts/CartContext";
+import Header from "@/components/organisms/Header";
 
 const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
 
@@ -9,7 +11,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang={"en"} className={montserrat.className}>
-      <body>{children}</body>
+      <body>
+        <CartProvider>
+          <Header />
+          {children}
+        </CartProvider>
+      </body>
     </html>
   );
 }

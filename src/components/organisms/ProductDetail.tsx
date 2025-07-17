@@ -5,6 +5,8 @@ import styled from "styled-components";
 import ProductRating from "@/components/atoms/ProductRating";
 import ProductPrice from "@/components/atoms/ProductPrice";
 import StyledImage from "@/components/atoms/Image";
+import Button from "@/components/atoms/Button";
+import { useCart } from "@/contexts/CartContext";
 
 interface IProductDetailProps {
   product: IProduct;
@@ -52,7 +54,13 @@ const ProductDetailRating = styled(ProductRating)`
   justify-content: flex-start;
 `;
 
+const ButtonAddToCart = styled(Button)`
+  max-width: 250px;
+`;
+
 export default function ProductDetail({ product }: IProductDetailProps) {
+  const { addToCart } = useCart();
+
   return (
     <Wrapper>
       <ImageWrapper>
@@ -65,6 +73,14 @@ export default function ProductDetail({ product }: IProductDetailProps) {
         <ProductDetailRating>
           ⭐ {product.rating.rate} ({product.rating.count} reviews)
         </ProductDetailRating>
+        <ButtonAddToCart
+          onClick={(e) => {
+            e.preventDefault();
+            addToCart(product);
+          }}
+        >
+          Add to Cart
+        </ButtonAddToCart>
       </Content>
     </Wrapper>
   );
