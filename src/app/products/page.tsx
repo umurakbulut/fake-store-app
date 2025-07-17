@@ -8,6 +8,7 @@ import PriceFilter from "@/components/molecules/PriceFilter";
 import { fetchProducts } from "@/services/products";
 import { getFilteredPaginatedProducts } from "@/utils/product";
 import SearchInput from "@/components/molecules/SearchInput";
+import { Metadata } from "next";
 
 interface IProductPageProps {
   searchParams: Promise<{
@@ -19,6 +20,10 @@ interface IProductPageProps {
     query?: string;
   }>;
 }
+
+export const metadata: Metadata = {
+  title: "MyStore - Products",
+};
 
 export default async function ProductsPage({
   searchParams,
