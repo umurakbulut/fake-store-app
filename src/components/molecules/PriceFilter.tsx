@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useCallback } from "react";
 import styled from "styled-components";
-import PriceInput from "@/components/atoms/PriceInput";
+import Input from "@/components/atoms/Input";
 import Button from "@/components/atoms/Button";
 
 const PriceFilterWrapper = styled.div`
@@ -44,13 +44,13 @@ export default function PriceFilter() {
 
   return (
     <PriceFilterWrapper>
-      <PriceInput
+      <Input
         type="number"
         placeholder="Min Price"
         value={minPrice}
         onChange={(e) => setMinPrice(e.target.value)}
       />
-      <PriceInput
+      <Input
         type="number"
         placeholder="Max Price"
         value={maxPrice}

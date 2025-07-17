@@ -7,6 +7,7 @@ import FiltersWrapper from "@/components/organisms/FiltersWrapper";
 import PriceFilter from "@/components/molecules/PriceFilter";
 import { fetchProducts } from "@/services/products";
 import { getFilteredPaginatedProducts } from "@/utils/product";
+import SearchInput from "@/components/molecules/SearchInput";
 
 interface IProductPageProps {
   searchParams: Promise<{
@@ -15,13 +16,15 @@ interface IProductPageProps {
     category?: string;
     minPrice?: string;
     maxPrice?: string;
+    query?: string;
   }>;
 }
 
 export default async function ProductsPage({
   searchParams,
 }: IProductPageProps) {
-  const { page, sort, category, minPrice, maxPrice } = await searchParams;
+  const { page, sort, category, minPrice, maxPrice, query } =
+    await searchParams;
 
   const currentPage = Number(page || 1);
   const limit = 10;
@@ -38,6 +41,7 @@ export default async function ProductsPage({
     limit,
     min,
     max,
+    query,
   });
 
   const totalPages = Math.ceil(total / limit);
@@ -49,6 +53,7 @@ export default async function ProductsPage({
         <CategoryFilter />
         <SortSelect />
         <PriceFilter />
+        <SearchInput />
       </FiltersWrapper>
       <ProductGrid products={products} />
       <Pagination currentPage={currentPage} totalPages={totalPages} />

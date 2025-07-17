@@ -2,12 +2,13 @@ import { IProduct } from "@/types/product";
 
 interface IFilterOptions {
   products: IProduct[];
-  sort?: "asc" | "desc";
-  category?: string;
   page: number;
   limit: number;
   min: number;
   max: number;
+  category?: string;
+  sort?: "asc" | "desc";
+  query?: string;
 }
 
 export function getFilteredPaginatedProducts({
@@ -18,6 +19,7 @@ export function getFilteredPaginatedProducts({
   limit,
   min,
   max,
+  query,
 }: IFilterOptions) {
   const normalizedCategory = decodeURIComponent(category || "").replace(
     /\+/g,
@@ -35,6 +37,12 @@ export function getFilteredPaginatedProducts({
   filtered = filtered.filter(
     (product) => product.price >= min && product.price <= max
   );
+
+  if (query) {
+    filtered = filtered.filter((product) =>
+      product.title.toLowerCase().includes(query.toLowerCase())
+    );
+  }
 
   if (sort === "asc") {
     filtered = filtered.sort((a, b) => a.price - b.price);

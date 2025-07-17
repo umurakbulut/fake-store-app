@@ -4,7 +4,7 @@ import StyledImage from "@/components/atoms/Image";
 import Card from "@/components/atoms/Card";
 import ProductTitle from "@/components/atoms/ProductTitle";
 import ProductPrice from "@/components/atoms/ProductPrice";
-import ProductRating from "@/components/molecules/ProductRating";
+import ProductRating from "@/components/atoms/ProductRating";
 import { IProduct } from "@/types/product";
 
 interface IProductCardProps {
